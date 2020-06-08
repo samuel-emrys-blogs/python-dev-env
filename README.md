@@ -120,13 +120,17 @@ The creation of `setup.py`, `requirements.txt` and `dev-requirements.txt` will b
 	
 The next step is to set up a virtual environment for development. This is facilitated using the `virtualenv` package. A [virtual environment](https://docs.python.org/3/tutorial/venv.html) is a ***self contained*** directory tree, that contains a Python installation for a particular version of Python, plus a number of additional packages. Different applications can then use different virtual environments. This is important because it allows for the containment of project dependencies. To be explicit with an example of this, lets say you develop project `x` in your host environment, which depends on a specific package version, `pkg 0.15`. Then, you begin development work on project `y` in your host environment, and you want to use a newer version of `pkg`; lets say `pkg 0.25`. If you're installing this all into your global package directory, doing this would mean that project `x` no longer works. The solution to this is to use [`virtualenv`](https://docs.python-guide.org/dev/virtualenvs/). This allows all of these packages to be installed in self contained virtual environments to avoid global conflicts. This can be achieved as follows:
 
-	$ pip install virtualenv
-    $ cd my_project_folder
-	$ virtualenv venv
+```bash
+$ pip install virtualenv
+$ cd my_project_folder
+$ virtualenv venv
+```
 
 This will install `virtualenv` to your host environment, and create a `virtualenv` directory, `my_project_folder/venv`, using your default python version. To change the python version, you can pass the `--python=/path/to/python/dist` flag, i.e:
 
-	$ virtualenv --python=/usr/bin/python2.7 venv
+```bash
+$ virtualenv --python=/usr/bin/python2.7 venv
+```
 
 This will configure the `virtualenv` to use `python2.7`. To "enter" the `virtualenv` (a state in which all python commands use the self contained directory tree of the virtual environment), you can activate it by running the following command from the project root:
 
@@ -142,7 +146,9 @@ pi@raspberrypi:/opt/projectname $ source venv/bin/activate
 
 To exit the virtual environment:
 
-	$ deactivate
+```bash
+$ deactivate
+```
 
 To delete a virtual environment, just delete its folder, `venv`.
 
@@ -444,7 +450,7 @@ The issues associated with installing packages to your local host environment (i
 
 For these reasons, we want to use the `pip install` command in the host environment ***as sparingly as possible***. To make sure that I didn't accidentally execute `pip install` in my host environment, I added the following to the end of my `~/.zshrc` file: 
 
-```zsh
+```bash
 ## Pip
 # Ensure that pip can only install to virtualenv's
 export PIP_REQUIRE_VIRTUALENV=true
@@ -537,28 +543,33 @@ I've never been through this process, so I'm by no means an authority on it. At 
 1. Register an account at [https://test.pypi.org/account/register/](https://test.pypi.org/account/register/)
 	
 2. Install twine
-    ```zsh
+
+    ```bash
     $ pip install twine
     ```
 
 3. Build the package
-    ```zsh
+
+    ```bash
     $ python setup.py sdist bdsit_wheel
     ```
 
 4. Check the package
-    ```zsh
+
+    ```bash
     $ twine check dist/*
     ```
     
 5. Test the package by uploading to the Test PyPI
-    ```zsh
+
+    ```bash
     $ twine upload --repository-url https://test.pypi.org/legacy/ dist/*
     ```
     For more details on using TestPyPI, refer to [Using TestPyPI](https://packaging.python.org/guides/using-testpypi/)
 
 6. Upload the package to the PyPI
-    ```zsh
+
+    ```bash
     $ twine upload dist/*
     ```
 
